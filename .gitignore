@@ -1,0 +1,4 @@
+**/.idea/**
+**/target/**
+/native-demo/src/main/native/cmake-build-debug/
+*.iml
