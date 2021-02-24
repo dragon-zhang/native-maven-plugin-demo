@@ -12,44 +12,124 @@
     <artifactId>native-demo</artifactId>
 
     <profiles>
+        <!-- linux -->
         <profile>
-            <id>windows</id>
+            <id>linux32</id>
             <activation>
                 <property>
                     <name>platform</name>
-                    <value>win</value>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>linux32</value>
                 </property>
             </activation>
             <properties>
-                <os_name>win32</os_name>
-                <lib_name>jnilibrary.dll</lib_name>
+                <os_arch_name>linux-x86</os_arch_name>
+                <include>linux</include>
+                <os_arch_option>-m32</os_arch_option>
+                <lib_name>libJniLibrary.so</lib_name>
             </properties>
         </profile>
         <profile>
-            <id>linux</id>
-            <activation>
-                <property>
-                    <name>platform</name>
-                    <value>linux</value>
-                </property>
-            </activation>
-            <properties>
-                <os_name>linux</os_name>
-                <lib_name>libjnilibrary.so</lib_name>
-            </properties>
-        </profile>
-        <profile>
-            <id>macos</id>
+            <id>linux64</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
                     <name>platform</name>
-                    <value>macos</value>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>linux64</value>
                 </property>
             </activation>
             <properties>
-                <os_name>darwin</os_name>
-                <lib_name>libjnilibrary.dylib</lib_name>
+                <os_arch_name>linux-x64</os_arch_name>
+                <include>linux</include>
+                <os_arch_option>-m64</os_arch_option>
+                <lib_name>libJniLibrary.so</lib_name>
+            </properties>
+        </profile>
+
+        <!-- windows -->
+        <profile>
+            <id>windows32</id>
+            <activation>
+                <property>
+                    <name>platform</name>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>windows32</value>
+                </property>
+            </activation>
+            <properties>
+                <os_arch_name>windows-x86</os_arch_name>
+                <include>win32</include>
+                <os_arch_option>-m32</os_arch_option>
+                <lib_name>JniLibrary.dll</lib_name>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows64</id>
+            <activation>
+                <property>
+                    <name>platform</name>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>windows64</value>
+                </property>
+            </activation>
+            <properties>
+                <os_arch_name>windows-x64</os_arch_name>
+                <include>win32</include>
+                <os_arch_option>-m64</os_arch_option>
+                <lib_name>JniLibrary.dll</lib_name>
+            </properties>
+        </profile>
+
+        <!-- macos -->
+        <profile>
+            <id>macos32</id>
+            <activation>
+                <property>
+                    <name>platform</name>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>macos32</value>
+                </property>
+            </activation>
+            <properties>
+                <os_arch_name>macos-x86</os_arch_name>
+                <include>darwin</include>
+                <os_arch_option>-m32</os_arch_option>
+                <lib_name>libJniLibrary.dylib</lib_name>
+            </properties>
+        </profile>
+        <profile>
+            <id>macos64</id>
+            <activation>
+                <property>
+                    <name>platform</name>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>macos64</value>
+                </property>
+            </activation>
+            <properties>
+                <os_arch_name>macos-x64</os_arch_name>
+                <include>darwin</include>
+                <os_arch_option>-m64</os_arch_option>
+                <lib_name>libJniLibrary.dylib</lib_name>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>macosm1</id>
+            <activation>
+                <property>
+                    <name>platform</name>
+                    <!-- fixme 可能需要修复下面的value值-->
+                    <value>macosm1</value>
+                </property>
+            </activation>
+            <properties>
+                <os_arch_name>macos-m1</os_arch_name>
+                <include>darwin</include>
+                <!-- fixme 可能需要修复下面的os_arch_option值-->
+                <os_arch_option>-m64</os_arch_option>
+                <lib_name>libJniLibrary.dylib</lib_name>
             </properties>
         </profile>
     </profiles>
@@ -61,8 +141,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
@@ -72,12 +152,12 @@
                 <version>1.0-alpha-11</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <javahOS>${os_name}</javahOS>
+                    <javahOS>${include}</javahOS>
                     <sources>
                         <source>
                             <directory>src/main/native/src</directory>
                             <fileNames>
-                                <fileName>jni.cpp</fileName>
+                                <fileName>jni-library.cpp</fileName>
                             </fileNames>
                         </source>
                         <source>
@@ -88,7 +168,7 @@
                     <compilerProvider>generic-classic</compilerProvider>
                     <compilerExecutable>g++</compilerExecutable>
                     <compilerStartOptions>
-                        <compilerStartOption>-m64</compilerStartOption>
+                        <compilerStartOption>${os_arch_option}</compilerStartOption>
                         <compilerStartOption>-fpic</compilerStartOption>
                         <compilerStartOption>-shared</compilerStartOption>
                         <compilerStartOption>-o</compilerStartOption>
@@ -97,8 +177,10 @@
                     <linkerOutputDirectory>target</linkerOutputDirectory>
                     <linkerExecutable>g++</linkerExecutable>
                     <linkerStartOptions>
-                        <linkerStartOption>-m64</linkerStartOption>
+                        <linkerStartOption>${os_arch_option}</linkerStartOption>
+                        <linkerStartOption>-fpic</linkerStartOption>
                         <linkerStartOption>-shared</linkerStartOption>
+                        <linkerStartOption>-o</linkerStartOption>
                     </linkerStartOptions>
                     <linkerEndOptions>
                         <linkerEndOption>-o ${project.build.directory}/classes/${lib_name}</linkerEndOption>

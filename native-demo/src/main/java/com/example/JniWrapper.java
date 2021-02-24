@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class JniWrapper {
 
-    final private static String LIB_NAME = "jnilibrary";
+    private final static String LIB_NAME = "JniLibrary";
 
     static {
         try {
