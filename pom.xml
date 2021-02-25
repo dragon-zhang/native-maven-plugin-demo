@@ -13,6 +13,47 @@
         <module>reference-jar</module>
     </modules>
 
+    <profiles>
+        <!-- macos -->
+        <profile>
+            <id>macos</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <properties>
+                <os_family>macos</os_family>
+            </properties>
+        </profile>
+
+        <!-- linux -->
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <name>linux</name>
+                </os>
+            </activation>
+            <properties>
+                <os_family>linux</os_family>
+            </properties>
+        </profile>
+
+        <!-- windows -->
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <os_family>windows</os_family>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -29,7 +70,7 @@
                 <groupId>com.taobao.arthas</groupId>
                 <artifactId>arthas-beans</artifactId>
                 <version>3.4.7-SNAPSHOT</version>
-                <classifier>macos-x64</classifier>
+                <classifier>${os_family}-${os.arch}</classifier>
             </dependency>
         </dependencies>
     </dependencyManagement>

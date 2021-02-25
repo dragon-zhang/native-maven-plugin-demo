@@ -23,7 +23,20 @@
             </activation>
             <properties>
                 <os_name>macos</os_name>
-                <lib_name>libArthasJniLibrary.dylib</lib_name>
+                <lib_name>libJniLibrary.dylib</lib_name>
+            </properties>
+        </profile>
+        <profile>
+            <id>macos-amd64</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <properties>
+                <os_name>macos</os_name>
+                <lib_name>libJniLibrary.dylib</lib_name>
             </properties>
         </profile>
 
@@ -32,26 +45,26 @@
             <id>linux-x86_64</id>
             <activation>
                 <os>
-                    <family>unix</family>
+                    <name>linux</name>
                     <arch>x86_64</arch>
                 </os>
             </activation>
             <properties>
                 <os_name>linux</os_name>
-                <lib_name>libArthasJniLibrary.so</lib_name>
+                <lib_name>libJniLibrary.so</lib_name>
             </properties>
         </profile>
         <profile>
             <id>linux-amd64</id>
             <activation>
                 <os>
-                    <family>unix</family>
+                    <name>linux</name>
                     <arch>amd64</arch>
                 </os>
             </activation>
             <properties>
                 <os_name>linux</os_name>
-                <lib_name>libArthasJniLibrary.so</lib_name>
+                <lib_name>libJniLibrary.so</lib_name>
             </properties>
         </profile>
 
@@ -66,7 +79,20 @@
             </activation>
             <properties>
                 <os_name>windows</os_name>
-                <lib_name>ArthasJniLibrary.dll</lib_name>
+                <lib_name>JniLibrary.dll</lib_name>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-amd64</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <properties>
+                <os_name>windows</os_name>
+                <lib_name>JniLibrary.dll</lib_name>
             </properties>
         </profile>
     </profiles>
