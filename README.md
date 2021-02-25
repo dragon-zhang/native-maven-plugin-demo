@@ -47,7 +47,7 @@ mvn clean compile package -DskipTests=true
     </profile>
 </profiles>
 ```
-# step2：添加依赖
+# step4：添加依赖
 ```
 <dependencies>
     <dependency>
@@ -58,7 +58,7 @@ mvn clean compile package -DskipTests=true
     </dependency>
 </dependencies>
 ```
-# step3：使用`JvmUtils`
+# step5：使用`JvmUtils`
 ```java
 import com.vdian.vclub.JvmUtils;
 
