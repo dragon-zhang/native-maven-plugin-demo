@@ -1,5 +1,5 @@
-#include <jni.h>
-#include <jni_md.h>
+#include "jni.h"
+#include "jni_md.h"
 #include "com_example_JniWrapper.h"
 
 extern "C"
