@@ -2,7 +2,7 @@
 # step2：打64位包到本地
 打包命令如下(自动识别系统)：
 ```
-mvn clean compile package -DskipTests=true
+mvn clean compile package install -DskipTests=true -U
 ```
 # step3：添加profile
 ```
