@@ -48,6 +48,7 @@ mvn clean compile package install -DskipTests=true -U
 </profiles>
 ```
 # step4：添加依赖
+PS：一定要配置好profile，不然无法自动生成`<classifier>`配置。
 ```
 <dependencies>
     <dependency>
