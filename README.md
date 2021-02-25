@@ -1,48 +1,63 @@
-# step1：进入arthas项目，以以下方式打包到本地
-## linux
-打64位linux包(默认)：
+# step1：进入arthas项目
+# step2：打64位包到本地
+打包命令如下(自动识别系统)：
 ```
-mvn clean compile package -DskipTests=true -Plinux64
+mvn clean compile package -DskipTests=true
 ```
-打32位linux包：
+# step3：添加profile
 ```
-mvn clean compile package -DskipTests=true -Plinux32
-```
-## macos
-打64位macos包
-```
-mvn clean compile package -DskipTests=true -Pmacos64
-```
-打32位macos包：
-```
-mvn clean compile package -DskipTests=true -Pmacos32
-```
-## windows
-打64位windows包：
-```
-mvn clean compile package -DskipTests=true -Pwindows64
-```
-打32位windows包：
-```
-mvn clean compile package -DskipTests=true -Pwindows32
+<profiles>
+    <!-- macos -->
+    <profile>
+        <id>macos</id>
+        <activation>
+            <os>
+                <family>mac</family>
+            </os>
+        </activation>
+        <properties>
+            <os_family>macos</os_family>
+        </properties>
+    </profile>
+
+    <!-- linux -->
+    <profile>
+        <id>linux</id>
+        <activation>
+            <os>
+                <name>linux</name>
+            </os>
+        </activation>
+        <properties>
+            <os_family>linux</os_family>
+        </properties>
+    </profile>
+
+    <!-- windows -->
+    <profile>
+        <id>windows</id>
+        <activation>
+            <os>
+                <family>windows</family>
+            </os>
+        </activation>
+        <properties>
+            <os_family>windows</os_family>
+        </properties>
+    </profile>
+</profiles>
 ```
 # step2：添加依赖
 ```
-<dependency>
-    <groupId>com.taobao.arthas</groupId>
-    <artifactId>arthas-beans</artifactId>
-    <version>3.4.7-SNAPSHOT</version>
-    <classifier>macos-x64</classifier>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>com.taobao.arthas</groupId>
+        <artifactId>arthas-beans</artifactId>
+        <version>3.4.7-SNAPSHOT</version>
+        <classifier>${os_family}-${os.arch}</classifier>
+    </dependency>
+</dependencies>
 ```
-如果您是linux32位，把classifier改成`<classifier>linux-x86</classifier>`；
-
-如果您是macos32位，把classifier改成`<classifier>macos-x86</classifier>`；
-
-如果您是windows32位，把classifier改成`<classifier>windows-x86</classifier>`；
-
-如果您是windows64位，把classifier改成`<classifier>windows-x64</classifier>`；
-
 # step3：使用`JvmUtils`
 ```java
 import com.vdian.vclub.JvmUtils;
